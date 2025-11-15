@@ -8,8 +8,22 @@ import org.springframework.web.client.RestClient;
 public class RestClientConfig {
 
     @Bean
-    public RestClient restClient(RestClient.Builder builder) {
-        return builder.baseUrl("http://localhost:8888")
-                .build();
+    public RestClient musicClient(RestClient.Builder builder) {
+        return builder.baseUrl("http://localhost:8888/api/v1/music").build();
+    }
+
+    @Bean
+    public RestClient videoClient(RestClient.Builder builder) {
+        return builder.baseUrl("http://localhost:8888/api/v1/video").build();
+    }
+
+    @Bean
+    public RestClient podcastClient(RestClient.Builder builder) {
+        return builder.baseUrl("http://localhost:8888/api/v1/podcast").build();
+    }
+
+    @Bean
+    public RestClient audioBookClient(RestClient.Builder builder) {
+        return builder.baseUrl("http://localhost:8888/api/v1/audiobook").build();
     }
 }
