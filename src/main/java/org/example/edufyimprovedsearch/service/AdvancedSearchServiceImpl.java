@@ -6,8 +6,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -41,109 +39,177 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
         response.setVideos(searchVideos(searchToLowerCase));
         response.setDirectors(searchDirectors(searchToLowerCase));
 
+        response.setPodcasts(searchPodcasts(searchToLowerCase));
+
+        response.setAudiobooks(searchAudiobooks(searchToLowerCase));
+
         return response;
     }
 
     // SONGS
     private List<SongDto> searchSongs(String searchToLowerCase) {
-        List<SongDto> songs = musicClient.get()
-                .uri("/songs")
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
+        try {
+            List<SongDto> songs = musicClient.get()
+                    .uri("/songs")
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
 
-        if (songs == null) return List.of();
+            if (songs == null) return List.of();
 
-        return songs.stream()
-                .filter(song -> song.getTitle() != null &&
-                        song.getTitle().toLowerCase().contains(searchToLowerCase))
-                .toList();
+            return songs.stream()
+                    .filter(song -> song.getTitle() != null &&
+                            song.getTitle().toLowerCase().contains(searchToLowerCase))
+                    .toList();
+        }  catch (Exception e) {
+            return null;
+        }
     }
 
     // ARTISTS
     private List<ArtistDto> searchArtists(String searchToLowerCase) {
-        List<ArtistDto> artists = musicClient.get()
-                .uri("/artists")
-                .retrieve()
-                .body(new ParameterizedTypeReference<List<ArtistDto>>() {
-                });
+        try {
+            List<ArtistDto> artists = musicClient.get()
+                    .uri("/artists")
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<List<ArtistDto>>() {
+                    });
 
-        if (artists == null) return List.of();
+            if (artists == null) return List.of();
 
-        return artists.stream()
-                .filter(artist -> artist.getName() != null &&
-                        artist.getName().toLowerCase().contains(searchToLowerCase))
-                .toList();
+            return artists.stream()
+                    .filter(artist -> artist.getName() != null &&
+                            artist.getName().toLowerCase().contains(searchToLowerCase))
+                    .toList();
+        }  catch (Exception e) {
+            return null;
+        }
     }
 
     // MEMBERS
     private List<MemberArtistDto> searchMusicians(String searchToLowerCase) {
-        List<MemberArtistDto> members = musicClient.get()
-                .uri("/members")
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
+        try {
+            List<MemberArtistDto> members = musicClient.get()
+                    .uri("/members")
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
 
-        if (members == null) return List.of();
+            if (members == null) return List.of();
 
-        return members.stream()
-                .filter(memberArtist -> memberArtist.getMusician().getName().toLowerCase().contains(searchToLowerCase))
-                .toList();
+            return members.stream()
+                    .filter(memberArtist -> memberArtist.getMusician().getName().toLowerCase().contains(searchToLowerCase))
+                    .toList();
+        }  catch (Exception e) {
+            return null;
+        }
     }
 
     // ALBUMS
     private List<AlbumDto> searchAlbums(String searchToLowerCase) {
-        /*String json = musicClient.get()
-                .uri("/albums")
-                .retrieve()
-                .body(String.class);*/
+        try {
+            List<AlbumDto> albums = musicClient.get()
+                    .uri("/albums")
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
 
-        List<AlbumDto> albums = musicClient.get()
-                .uri("/albums")
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
+            System.out.println(">>> ALBUM HIT <<<");
 
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ALBUM HIT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            if (albums == null) return List.of();
 
-        if (albums == null) return List.of();
-
-        return albums.stream()
-                .filter(album -> album.getTitle().toLowerCase().contains(searchToLowerCase))
-                .toList();
+            return albums.stream()
+                    .filter(album -> album.getTitle().toLowerCase().contains(searchToLowerCase))
+                    .toList();
+        } catch (Exception e) {
+            System.out.println(">>> ERROR HIT <<<");
+            return null;
+        }
     }
 
     // VIDEOS
     private List<VideoDto> searchVideos(String searchToLowerCase) {
-        List<VideoDto> videos = videoClient.get()
-                .uri("")
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
+        try {
+            List<VideoDto> videos = videoClient.get()
+                    .uri("")
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
 
-        if (videos == null) return List.of();
+            if (videos == null) return List.of();
 
-        return videos.stream()
-                .filter(video -> video.getTitle().toLowerCase().contains(searchToLowerCase))
-                .toList();
+            return videos.stream()
+                    .filter(video -> video.getTitle().toLowerCase().contains(searchToLowerCase))
+                    .toList();
+        } catch (Exception e) {
+            System.out.println(">>> CATCH REACHED <<<");
+            return null;
+        }
     }
 
     // DIRECTORS
     private List<String> searchDirectors(String searchToLowerCase) {
-        List<VideoDto> videos = videoClient.get()
-                .uri("")
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
+        try {
+            List<DirectorDto> videos = videoClient.get()
+                    .uri("")
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
 
-        List<String> directors = videos.stream()
-                .map(VideoDto::getArtists)
-                .filter(Objects::nonNull)
-                .flatMap(List::stream)
-                .filter(artist -> artist.toLowerCase().contains(searchToLowerCase))
-                .distinct()
-                .collect(Collectors.toList());
+            assert videos != null;
+            return videos.stream()
+                    .map(DirectorDto::getArtists)
+                    .filter(Objects::nonNull)
+                    .flatMap(List::stream)
+                    .filter(artist -> artist.toLowerCase().contains(searchToLowerCase))
+                    .distinct()
+                    .collect(Collectors.toList());
 
-        return directors;
+        } catch (Exception e) {
+            System.out.println(">>> CATCH REACHED <<<");
+            return null;
+        }
+    }
+
+    // PODCASTS
+    private List<PodcastDto> searchPodcasts(String searchToLowerCase) {
+        try {
+            List<PodcastDto> podcasts = podcastClient.get()
+                    .uri("")
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
+
+            if (podcasts == null) return List.of();
+
+            return podcasts.stream()
+                    .filter(podcast ->
+                            podcast.getTitle().toLowerCase().contains(searchToLowerCase) ||
+                                    podcast.getHost().toLowerCase().contains(searchToLowerCase))
+                    .toList();
+        } catch (Exception e) {
+            System.out.println(">>> PODCAST EPISODE CATCH REACHED <<<");
+            return null;
+        }
+    }
+
+    // AUDIOBOOKS
+    private List<AudiobookDto> searchAudiobooks(String searchToLowerCase) {
+        try {
+            List<AudiobookDto> audiobooks = audiobookClient.get()
+                    .uri(uriBuilder -> uriBuilder
+                            .queryParam("title", searchToLowerCase)
+                    .build())
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
+
+            if (audiobooks == null) return List.of();
+
+            return audiobooks;
+        }  catch (Exception e) {
+            System.out.println(">>> AUDIOBOOK CATCH REACHED <<<");
+            return null;
+        }
     }
 }
