@@ -14,7 +14,7 @@ public class RestClientConfig {
 
     @Bean
     public RestClient videoClient(RestClient.Builder builder) {
-        return builder.baseUrl("http://localhost:8888/api/v1/video").build();
+        return builder.baseUrl("http://localhost:8081/api/videos").build();
     }
 
     @Bean
@@ -23,7 +23,7 @@ public class RestClientConfig {
     }
 
     @Bean
-    public RestClient audioBookClient(RestClient.Builder builder) {
+    public RestClient audiobookClient(RestClient.Builder builder) {
         return builder.baseUrl("http://localhost:8888/api/v1/audiobook").build();
     }
 }
