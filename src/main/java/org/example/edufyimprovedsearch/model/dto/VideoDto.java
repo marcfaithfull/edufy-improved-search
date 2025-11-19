@@ -9,7 +9,7 @@ import java.util.List;
 public class VideoDto {
     private String title;
     private String url;
-    private List<String> artists = new ArrayList<>();
+    //private List<String> artists = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -26,11 +26,11 @@ public class VideoDto {
         this.url = url;
     }
 
-    public List<String> getArtists() {
+    /*public List<String> getArtists() {
         return artists;
     }
 
     public void setArtists(List<String> artists) {
         this.artists = artists;
-    }
+    }*/
 }
