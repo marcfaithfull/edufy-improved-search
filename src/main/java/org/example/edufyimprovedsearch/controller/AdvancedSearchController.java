@@ -1,7 +1,7 @@
 package org.example.edufyimprovedsearch.controller;
 
-import org.example.edufyimprovedsearch.model.dto.MediaSearchResponseDto;
-import org.example.edufyimprovedsearch.model.dto.SearchDto;
+import org.example.edufyimprovedsearch.dto.MediaSearchResponseDto;
+import org.example.edufyimprovedsearch.dto.SearchDto;
 import org.example.edufyimprovedsearch.service.AdvancedSearchServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +18,10 @@ public class AdvancedSearchController {
         this.advancedSearchServiceImpl = advancedSearchServiceImpl;
     }
 
-    @GetMapping("/everything")
-    public ResponseEntity<MediaSearchResponseDto> retrieveAllSongs(@RequestBody SearchDto search) {
-        System.out.println(">>> CONTROLLER HIT <<<");
-        MediaSearchResponseDto songs = advancedSearchServiceImpl.getEverything(search);
-        return ResponseEntity.ok(songs);
+    @GetMapping("/general")
+    public ResponseEntity<MediaSearchResponseDto> getAllMedia(@RequestBody SearchDto search) {
+        MediaSearchResponseDto response = advancedSearchServiceImpl.getEverything(search);
+        System.out.println(">>> BACK TO THE CONTROLLER <<<");
+        return ResponseEntity.ok(response);
     }
 }

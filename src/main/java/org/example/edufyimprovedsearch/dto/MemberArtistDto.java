@@ -1,10 +1,10 @@
-package org.example.edufyimprovedsearch.model.dto;
+package org.example.edufyimprovedsearch.dto;
 
 import java.util.List;
 
 public class MemberArtistDto {
     private MemberDto musician;
-    private List<ArtistDto> memberOf;
+    //private List<ArtistDto> memberOf;
 
     public MemberDto getMusician() {
         return musician;
@@ -14,11 +14,11 @@ public class MemberArtistDto {
         this.musician = musician;
     }
 
-    public List<ArtistDto> getMemberOf() {
+    /*public List<ArtistDto> getMemberOf() {
         return memberOf;
     }
 
     public void setMemberOf(List<ArtistDto> memberOf) {
         this.memberOf = memberOf;
-    }
+    }*/
 }

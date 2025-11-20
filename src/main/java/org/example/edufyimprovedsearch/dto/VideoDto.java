@@ -1,4 +1,4 @@
-package org.example.edufyimprovedsearch.model.dto;
+package org.example.edufyimprovedsearch.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -9,7 +9,7 @@ import java.util.List;
 public class VideoDto {
     private String title;
     private String url;
-    //private List<String> artists = new ArrayList<>();
+    private List<String> directors = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -26,11 +26,11 @@ public class VideoDto {
         this.url = url;
     }
 
-    /*public List<String> getArtists() {
-        return artists;
+    public List<String> getDirectors() {
+        return directors;
     }
 
-    public void setArtists(List<String> artists) {
-        this.artists = artists;
-    }*/
+    public void setDirectors(List<String> directors) {
+        this.directors = directors;
+    }
 }

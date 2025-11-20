@@ -1,26 +1,17 @@
-package org.example.edufyimprovedsearch.model.dto;
+package org.example.edufyimprovedsearch.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MediaSearchResponseDto {
-    private String searchField;
     private List<SongDto> songs = new ArrayList<>();
     private List<ArtistDto> artists = new ArrayList<>();
     private List<AlbumDto> albums = new ArrayList<>();
     private List<MemberArtistDto> musicians = new ArrayList<>();
     private List<VideoDto> videos  = new ArrayList<>();
-    private List<String> directors = new ArrayList<>();
+    //private List<String> directors = new ArrayList<>();
     private List<AudiobookDto> audiobooks  = new ArrayList<>();
     private List<PodcastDto> podcasts  = new ArrayList<>();
-
-    public String getSearchField() {
-        return searchField;
-    }
-
-    public void setSearchField(String searchField) {
-        this.searchField = searchField;
-    }
 
     public List<SongDto> getSongs() {
         return songs;
@@ -62,13 +53,13 @@ public class MediaSearchResponseDto {
         this.videos = videos;
     }
 
-    public List<String> getDirectors() {
+    /*public List<String> getDirectors() {
         return directors;
     }
 
     public void setDirectors(List<String> directors) {
         this.directors = directors;
-    }
+    }*/
 
     public List<AudiobookDto> getAudiobooks() {
         return audiobooks;

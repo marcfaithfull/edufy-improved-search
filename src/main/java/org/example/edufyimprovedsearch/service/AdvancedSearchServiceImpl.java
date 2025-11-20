@@ -1,6 +1,6 @@
 package org.example.edufyimprovedsearch.service;
 
-import org.example.edufyimprovedsearch.model.dto.*;
+import org.example.edufyimprovedsearch.dto.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -30,14 +30,13 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
 
         MediaSearchResponseDto response = new MediaSearchResponseDto();
 
-        response.setSearchField(search.getSearch());
         response.setSongs(searchSongs(searchToLowerCase));
         response.setArtists(searchArtists(searchToLowerCase));
         response.setMusicians(searchMusicians(searchToLowerCase));
         response.setAlbums(searchAlbums(searchToLowerCase));
 
         response.setVideos(searchVideos(searchToLowerCase));
-        response.setDirectors(searchDirectors(searchToLowerCase));
+        //response.setDirectors(searchDirectors(searchToLowerCase));
 
         response.setPodcasts(searchPodcasts(searchToLowerCase));
 
@@ -62,7 +61,7 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
                             song.getTitle().toLowerCase().contains(searchToLowerCase))
                     .toList();
         }  catch (Exception e) {
-            return null;
+            return List.of();
         }
     }
 
@@ -72,17 +71,15 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
             List<ArtistDto> artists = musicClient.get()
                     .uri("/artists")
                     .retrieve()
-                    .body(new ParameterizedTypeReference<List<ArtistDto>>() {
+                    .body(new ParameterizedTypeReference<>() {
                     });
-
-            if (artists == null) return List.of();
 
             return artists.stream()
                     .filter(artist -> artist.getName() != null &&
                             artist.getName().toLowerCase().contains(searchToLowerCase))
                     .toList();
         }  catch (Exception e) {
-            return null;
+            return List.of();
         }
     }
 
@@ -101,29 +98,32 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
                     .filter(memberArtist -> memberArtist.getMusician().getName().toLowerCase().contains(searchToLowerCase))
                     .toList();
         }  catch (Exception e) {
-            return null;
+            return List.of();
         }
     }
 
     // ALBUMS
     private List<AlbumDto> searchAlbums(String searchToLowerCase) {
         try {
+
+            String response = musicClient.get()
+                    .uri("/albums")
+                    .retrieve()
+                    .body(String.class);
+            System.out.println(response);
+
             List<AlbumDto> albums = musicClient.get()
                     .uri("/albums")
                     .retrieve()
                     .body(new ParameterizedTypeReference<>() {
                     });
 
-            System.out.println(">>> ALBUM HIT <<<");
-
-            if (albums == null) return List.of();
-
             return albums.stream()
                     .filter(album -> album.getTitle().toLowerCase().contains(searchToLowerCase))
                     .toList();
         } catch (Exception e) {
-            System.out.println(">>> ERROR HIT <<<");
-            return null;
+            System.out.println(">>> ALBUM CANNOT BE REACHED <<<");
+            return List.of();
         }
     }
 
@@ -139,11 +139,14 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
             if (videos == null) return List.of();
 
             return videos.stream()
-                    .filter(video -> video.getTitle().toLowerCase().contains(searchToLowerCase))
+                    .filter(video ->
+                            video.getTitle().toLowerCase().contains(searchToLowerCase) ||
+                                    video.getDirectors().stream().anyMatch(artist ->
+                                                    artist.toLowerCase().contains(searchToLowerCase)))
                     .toList();
         } catch (Exception e) {
-            System.out.println(">>> CATCH REACHED <<<");
-            return null;
+            System.out.println(">>> VIDEO CANNOT BE REACHED <<<");
+            return List.of();
         }
     }
 
@@ -158,7 +161,7 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
 
             assert videos != null;
             return videos.stream()
-                    .map(DirectorDto::getArtists)
+                    .map(DirectorDto::getDirectors)
                     .filter(Objects::nonNull)
                     .flatMap(List::stream)
                     .filter(artist -> artist.toLowerCase().contains(searchToLowerCase))
@@ -166,8 +169,8 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
                     .collect(Collectors.toList());
 
         } catch (Exception e) {
-            System.out.println(">>> CATCH REACHED <<<");
-            return null;
+            System.out.println(">>> DIRECTOR CANNOT BE REACHED <<<");
+            return List.of();
         }
     }
 
@@ -188,8 +191,8 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
                                     podcast.getHost().toLowerCase().contains(searchToLowerCase))
                     .toList();
         } catch (Exception e) {
-            System.out.println(">>> PODCAST EPISODE CATCH REACHED <<<");
-            return null;
+            System.out.println(">>> PODCAST CANNOT BE REACHED <<<");
+            return List.of();
         }
     }
 
@@ -208,8 +211,8 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
 
             return audiobooks;
         }  catch (Exception e) {
-            System.out.println(">>> AUDIOBOOK CATCH REACHED <<<");
-            return null;
+            System.out.println(">>> AUDIOBOOK CANNOT BE REACHED <<<");
+            return List.of();
         }
     }
 }

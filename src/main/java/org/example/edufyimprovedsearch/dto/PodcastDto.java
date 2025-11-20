@@ -1,4 +1,4 @@
-package org.example.edufyimprovedsearch.model.dto;
+package org.example.edufyimprovedsearch.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
