@@ -1,6 +1,9 @@
-package org.example.edufyimprovedsearch.model.dto;
+package org.example.edufyimprovedsearch.dto;
 
-public class MemberDto {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ArtistDto {
     private String name;
     private String url;
 

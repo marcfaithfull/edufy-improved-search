@@ -1,4 +1,4 @@
-package org.example.edufyimprovedsearch.model.dto;
+package org.example.edufyimprovedsearch.dto;
 
 public class AudiobookDto {
     private String title;
@@ -10,4 +10,5 @@ public class AudiobookDto {
     public void setTitle(String title) {
         this.title = title;
     }
+
 }

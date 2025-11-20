@@ -1,4 +1,4 @@
-package org.example.edufyimprovedsearch.model.dto;
+package org.example.edufyimprovedsearch.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class AlbumDto {
     private String title;
     private String url;
-    private ArtistDto artist;
 
     public String getTitle() {
         return title;
@@ -14,14 +13,6 @@ public class AlbumDto {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public ArtistDto getArtist() {
-        return artist;
-    }
-
-    public void setArtist(ArtistDto artist) {
-        this.artist = artist;
     }
 
     public String getUrl() {
