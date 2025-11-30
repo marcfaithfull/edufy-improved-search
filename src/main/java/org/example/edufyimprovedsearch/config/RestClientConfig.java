@@ -24,6 +24,6 @@ public class RestClientConfig {
 
     @Bean
     public RestClient audiobookClient(RestClient.Builder builder) {
-        return builder.baseUrl("http://localhost:7575/api/audiobooks").build();
+        return builder.baseUrl("http://localhost:8090/api/audiobooks").build();
     }
 }
