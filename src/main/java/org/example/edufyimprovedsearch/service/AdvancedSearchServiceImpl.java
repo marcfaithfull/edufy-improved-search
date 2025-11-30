@@ -28,8 +28,8 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService {
         this.tokenProvider = tokenProvider;
     }
 
-    public MediaSearchResponseDto getEverything(SearchDto search) {
-        String searchToLowerCase = search.getSearch().toLowerCase();
+    public MediaSearchResponseDto getEverything(String search) {
+        String searchToLowerCase = search.toLowerCase();
 
         MediaSearchResponseDto response = new MediaSearchResponseDto();
 
